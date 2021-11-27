@@ -1,0 +1,20 @@
+{
+  "name": "node-first",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/triggac4/nodey.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/triggac4/nodey/issues"
+  },
+  "homepage": "https://github.com/triggac4/nodey#readme"
+}
