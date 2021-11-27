@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/triggac4/nodey/issues"
   },
-  "homepage": "https://github.com/triggac4/nodey#readme"
+  "homepage": "https://github.com/triggac4/nodey#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
