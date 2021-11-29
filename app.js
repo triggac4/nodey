@@ -27,3 +27,4 @@ readFile('./content/first.txt', 'utf-8', (err, resultz) => {
         )
     })
 })
+console.log('nodemon running')
