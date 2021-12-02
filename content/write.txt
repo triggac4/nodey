@@ -1,1 +1,1 @@
-this is first file and this is the second file are the two result of the functionthis is first file and this is the second file are the two result of the function
+the result is: this is first file and this is the second file 
