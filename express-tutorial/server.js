@@ -1,22 +1,10 @@
 const http = require('http')
 const fs = require('fs')
 
-const htmlResources = fs.readFileSync(
-    './express-tutorial/navbar-app/index.html',
-    'utf8'
-)
-const cssResources = fs.readFileSync(
-    './express-tutorial//navbar-app/styles.css',
-    'utf8'
-)
-const jsResources = fs.readFileSync(
-    './express-tutorial//navbar-app/browser-app.js',
-    'utf8'
-)
-const imageResources = fs.readFileSync(
-    './express-tutorial//navbar-app/logo.svg',
-    'utf8'
-)
+const htmlResources = fs.readFileSync('./navbar-app/index.html', 'utf8')
+const cssResources = fs.readFileSync('./navbar-app/styles.css', 'utf8')
+const jsResources = fs.readFileSync('./navbar-app/browser-app.js', 'utf8')
+const imageResources = fs.readFileSync('./navbar-app/logo.svg', 'utf8')
 
 http.createServer((req, res) => {
     if (req.url === '/') {
