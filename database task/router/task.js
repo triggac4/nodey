@@ -1,9 +1,10 @@
 const express = require("express")
 const router=express.Router()
 
-router.get('/:id',(req,res)=>{
-    console.log('working as it should')
-    res.send('something')
-})
+//controller
+const {getAllTasks,createTask,deleteTask,editTask,getTask}=require("../controller/task_controller")
+
+router.route('/').get(getAllTasks).post(createTask)
+router.route('/:id').delete(deleteTask).patch(editTask).get(getTask)
 
 module.exports=router
