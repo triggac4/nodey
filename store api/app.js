@@ -1,6 +1,9 @@
 //env
 require("dotenv").config();
 
+//async-errors
+require("express-async-errors");
+
 //load up express
 const express = require("express");
 const app = express();
@@ -18,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 //routes
-const products = require("./controller/products");
+const products = require("./route/products");
 app.use("/api/v1/product", products);
 
 //not found and errorhandler

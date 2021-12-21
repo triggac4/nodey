@@ -1,9 +1,23 @@
-const express = require("express");
-const { append } = require("express/lib/response");
-const router = express.Router();
+const productModel = require("../models/product");
+const ProductError = require("../error/productError");
 
-router.route("/").get((req, res) => {
-    res.json({ working: "it's working" });
-});
+//const queryChecker(rqueries)
 
-module.exports = router;
+const getAllProducts = async (req, res) => {
+    const searchQuery = req.query ?? {};
+    const result = await productModel.find(searchQuery).exec();
+    if (result.length <= 0) {
+        throw ProductError.create(404, "not found");
+    }
+    res.status(200).json({ result, length: result.length });
+};
+
+const getAllProductTesting = async (req, res) => {
+    const result = await productModel.find({ name: "accent chairzz" }).exec();
+
+    if (result.length <= 0) {
+        throw ProductError.create(404, "not found");
+    }
+    res.status(202).json({ result });
+};
+module.exports = { getAllProducts, getAllProductTesting };
