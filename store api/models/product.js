@@ -14,7 +14,7 @@ const productSchema = mongoose.Schema({
         type: String,
         enum: {
             values: ["ikea", "liddy", "caressa", "marcos"],
-            message: "{VALUE} is not am option",
+            message: "{VALUE} is not an option",
         },
     },
 });
