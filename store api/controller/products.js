@@ -4,7 +4,7 @@ const ProductError = require("../error/productError");
 //const queryChecker(queries)
 
 const getAllProducts = async (req, res) => {
-    const { featured, company, name, sort, field, price } = req.query;
+    const { featured, company, name, sort, field, numericFilter } = req.query;
     let sorts = "createdAt";
     let fields = "";
     const searchQuery = {};
@@ -19,10 +19,29 @@ const getAllProducts = async (req, res) => {
     if (name) {
         searchQuery.name = { $regex: name, $options: "i" };
     }
-    if (price) {
-        searchQuery.price = { $gt: 30 };
+    if (numericFilter) {
+        const numericFilterConverter = {
+            ">": "$gt",
+            ">=": "$gte",
+            "<": "$lt",
+            "<=": "$lte",
+        };
+
+        const filterRegex = /\b(<|<=|>|>=)\b/g;
+
+        const filters = numericFilter.replace(
+            filterRegex,
+            (match) => `-${numericFilterConverter[match]}-`
+        );
+        const numValue = ["price", "rating"];
+        filters.split(",").forEach((item) => {
+            const [field, condition, value] = item.split("-");
+
+            if (numValue.includes(field))
+                searchQuery[field] = { [condition]: Number(value) };
+        });
     }
-    const productCall = productModel.find({ searchQuery });
+    const productCall = productModel.find(searchQuery);
     //sort
     if (sort) {
         sorts = sort.replaceAll(",", " ");
