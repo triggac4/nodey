@@ -4,11 +4,12 @@ const ProductError = require("../error/productError");
 //const queryChecker(queries)
 
 const getAllProducts = async (req, res) => {
-    const { featured, company, name, sort } = req.query;
+    const { featured, company, name, sort, field, price } = req.query;
     let sorts = "createdAt";
+    let fields = "";
     const searchQuery = {};
     let result = [];
-
+    // main searchQueries
     if (featured) {
         searchQuery.featured = featured === "true" ? true : false;
     }
@@ -16,15 +17,31 @@ const getAllProducts = async (req, res) => {
         searchQuery.company = company;
     }
     if (name) {
-        console.log(name);
         searchQuery.name = { $regex: name, $options: "i" };
     }
+    if (price) {
+        searchQuery.price = { $gt: 30 };
+    }
+    const productCall = productModel.find({ searchQuery });
+    //sort
     if (sort) {
         sorts = sort.replaceAll(",", " ");
+        productCall.sort(sorts);
     }
 
-    result = await productModel.find(searchQuery).sort(sorts).exec();
+    if (field) {
+        fields = field.replaceAll(",", " ");
+        productCall.select(fields);
+    }
 
+    if (req.query.page) {
+        let pageNumber = Number(req.query.page) || 1;
+        let limit = Number(req.query.limit) || 10;
+        let skip = (pageNumber - 1) * limit;
+        productCall.skip(skip).limit(limit);
+    }
+
+    result = await productCall;
     res.status(200).json({ result, length: result.length });
 };
 
