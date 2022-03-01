@@ -1,5 +1,5 @@
-const notFound = (req, res) => {
-    res.send("<h1>Sorry Route Not Found</h1>");
-};
+function notFound(req, res) {
+    res.status(500).json({ msg: "invalid route or not found" });
+}
 
 module.exports = notFound;
