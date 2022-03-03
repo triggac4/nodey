@@ -1,5 +1,5 @@
 function notFound(req, res) {
-    res.status(500).json({ msg: "invalid route or not found" });
+    res.status(400).json({ msg: "invalid route or not found" });
 }
 
 module.exports = notFound;
