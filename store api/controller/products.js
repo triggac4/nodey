@@ -14,15 +14,6 @@ const getAllProduct = asyncWrapper(async (req, res) => {
         const nameRegex = new RegExp(`^${name}`, "i");
         queryObject.name = { $regex: nameRegex };
     }
-    const result = productSchema.find(queryObject);
-    if (sort) {
-        const sortList = sort.replaceAll(",", " ");
-        result.sort(sortList);
-    }
-    if (fields) {
-        const showFields = fields.replace(",", " ");
-        result.select(showFields);
-    }
     if (numericFilter) {
         ("price>10,rating<2");
         const signs = {
@@ -40,9 +31,20 @@ const getAllProduct = asyncWrapper(async (req, res) => {
         const split = filterChange.split(",");
         split.forEach((e) => {
             const [name, operation, value] = e.split("-");
-            filterChange[name] = { [operation]: value };
+            queryObject[name] = { [operation]: value * 1 };
         });
-        console.log(filterChange);
+        console.log(queryObject);
+    }
+
+    const result = productSchema.find(queryObject);
+
+    if (sort) {
+        const sortList = sort.replaceAll(",", " ");
+        result.sort(sortList);
+    }
+    if (fields) {
+        const showFields = fields.replace(",", " ");
+        result.select(showFields);
     }
     const page = req.query.page * 1 || 1;
     const limit = req.query.limit * 1 || 10;
