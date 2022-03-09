@@ -1,11 +1,12 @@
 const CustomError = require("../errors/custom-error");
+const error = require("../errors");
 const JWT = require("jsonwebtoken");
 
 const login = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        throw new CustomError("username or password missing", 400);
+        throw new error.BadRequestError("username or password missing");
     }
     const fakeId = new Date().getTime;
     const token = JWT.sign({ username, id: fakeId }, process.env.JWT_SECRET, {
@@ -21,7 +22,7 @@ const dashboard = async (req, res) => {
             secret: `your secret code is ${luckyNumber}`,
         });
     } else {
-        throw new CustomError("missing credentials", 401);
+        throw new error.UnAuthorizeError("missing credentials");
     }
 };
 

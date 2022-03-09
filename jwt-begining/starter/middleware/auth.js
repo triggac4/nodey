@@ -1,10 +1,10 @@
 const JWT = require("jsonwebtoken");
-const CustomError = require("../errors/custom-error");
+const error = require("../errors");
 const authentication = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     console.log(authHeader);
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        throw new CustomError("credentials missing", 401);
+        throw new error.UnAuthorizeError("credentials missing");
     }
     const token = authHeader.split(" ")[1].trim();
     try {
@@ -14,7 +14,7 @@ const authentication = async (req, res, next) => {
         req.decoded = decoded;
         next();
     } catch (e) {
-        throw new CustomError("invalid Credentials", 401);
+        throw new error.BadRequestError("invalid Credentials");
     }
 };
 
