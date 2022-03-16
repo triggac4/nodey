@@ -1,8 +1,7 @@
-const { string } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    username: {
+    name: {
         type: String,
         required: [true, "username needed to proceed"],
         minLength: 3,
@@ -18,9 +17,9 @@ const userSchema = mongoose.Schema({
     },
 
     password: {
-        type: string,
+        type: String,
         required: [true, "password must be inserted"],
     },
 });
 
-module.exports = mongoose.Schema("user", userSchema);
+module.exports = mongoose.model("user", userSchema);
