@@ -28,6 +28,12 @@ userSchema.pre("save", async function (next) {
     next();
 });
 userSchema.methods.createToken = function () {
-    return jwt.sign({ name: this.name, id: this._id }, process.env.JWT_SECRET);
+    return jwt.sign({ name: this.name, id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME,
+    });
+};
+
+userSchema.methods.passwordVerify = function (password) {
+    return bcrypt.compare(password, this.password);
 };
 module.exports = mongoose.model("user", userSchema);

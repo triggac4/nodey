@@ -1,4 +1,5 @@
 async function getAllJobs(req, res) {
+    console.log(req.user);
     res.send("get all jobs");
 }
 async function createJob(req, res) {
