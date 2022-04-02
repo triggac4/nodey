@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const authMiddleware = require("../middleware/authentication");
 const {
     getAllJobs,
     createJob,
@@ -10,7 +9,7 @@ const {
 
 router
     .route("/")
-    .get(authMiddleware, getAllJobs, (req, res) => {
+    .get(getAllJobs, (req, res) => {
         req.headers.authorization;
     })
     .post(createJob);

@@ -21,7 +21,7 @@ async function login(req, res) {
 
     const user = await userModel.findOne({ email });
     if (!user)
-        throw new error.UnauthenticatedError(
+        throw new error.BadRequestError(
             "please provide valid email and password"
         );
     const correctPass = await user.passwordVerify(password);
