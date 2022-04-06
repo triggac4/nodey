@@ -3,8 +3,9 @@ const { StatusCodes } = require("http-status-codes");
 const error = require("../errors");
 
 async function getAllJobs(req, res) {
-    console.log(req.user);
-    res.send("get all jobs");
+    const { id } = req.user;
+    const jobs = await JobModel.find({ createdBy: id }).sort("createdAt");
+    res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 }
 async function createJob(req, res) {
     req.body.createdBy = req.user.id;
@@ -12,9 +13,11 @@ async function createJob(req, res) {
     res.status(StatusCodes.CREATED).json(user);
 }
 async function getJob(req, res) {
-    console.log(req.params.id);
-    res.send("get one job");
+    const { _id } = req.body;
+    const job = await JobModel.findOne({ _id, createdBy: req.user.id });
+    res.status(StatusCodes.OK).json({ job });
 }
+
 async function updateJob(req, res) {
     res.send("update job");
 }
