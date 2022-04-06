@@ -14,7 +14,6 @@ const jobSchema = mongoose.Schema(
         },
         status: {
             type: String,
-
             enum: ["pending", "interview", "declined"],
             default: "pending",
         },
@@ -27,4 +26,4 @@ const jobSchema = mongoose.Schema(
     { timestamps: true }
 );
 
-mongoose.model("job", jobSchema);
+module.exports = mongoose.model("job", jobSchema);
