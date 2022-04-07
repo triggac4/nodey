@@ -13,16 +13,45 @@ async function createJob(req, res) {
     res.status(StatusCodes.CREATED).json(user);
 }
 async function getJob(req, res) {
-    const { _id } = req.body;
-    const job = await JobModel.findOne({ _id, createdBy: req.user.id });
+    const {
+        params: { id: _id },
+        user: { id: createdBy },
+    } = req;
+    const job = await JobModel.findOne({ _id, createdBy });
+    if (!job) {
+        throw new error.NotFoundError(`job with id ${_id} not found`);
+    }
     res.status(StatusCodes.OK).json({ job });
 }
 
 async function updateJob(req, res) {
-    res.send("update job");
+    const {
+        params: { id: jobId },
+        user: { id: createdBy },
+        body: { company, position, status },
+    } = req;
+    const job = await JobModel.findByIdAndUpdate(
+        { _id: jobId, createdBy },
+        { company, status, position },
+        { runValidators: true, new: true }
+    );
+    if (!job) {
+        throw new error.NotFoundError(`the job with id ${jobId}`);
+    }
+    res.status(StatusCodes.OK).json({ status: "success", job });
 }
+
 async function deleteJob(req, res) {
-    res.send("delete job");
+    const {
+        params: { id: _id },
+        user: { id: createdBy },
+    } = req;
+    const job = await JobModel.findByIdAndDelete({ _id, createdBy });
+    console.log(job);
+    if (!job) {
+        throw new error.NotFoundError(`job with id ${_id} not found`);
+    }
+    res.status(StatusCodes.OK).send();
 }
 module.exports = {
     getAllJobs,
