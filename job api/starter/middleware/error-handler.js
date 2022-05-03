@@ -14,7 +14,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     }
     if (err.name && err.name === "CastError") {
         customError.status = StatusCodes.BAD_REQUEST;
-        customError.msg = "check tp see if yo";
+        customError.msg = `invalid type : ${err.value}`;
     }
     if (err.name && err.name === "ValidationError") {
         customError.status = StatusCodes.BAD_REQUEST;

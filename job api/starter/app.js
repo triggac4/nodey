@@ -9,7 +9,25 @@ const authRoute = require("./routes/auth");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const authMiddleware = require("./middleware/authentication");
+
+//security
+
+const helmet=require("helmet");
+const xss= require("xss-clean");
+const cors=require("cors");
+const rateLimiter=require("express-rate-limit");
+const limiter=rateLimiter({
+    windowMs:15*60*1000,
+    max:50
+});
+
+app.set("trust proxy", 1);
+app.use(rateLimiter(limiter));
+app.use(helmet());
+app.use(xss());
+app.use(cors());
 app.use(express.json());
+
 // extra packages
 const connectDB = require("./db/connect");
 const user = require("./models/User");
