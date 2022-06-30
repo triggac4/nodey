@@ -16,11 +16,12 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json(),fileUpload())
+app.use(express.static("./public"))
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Starter</h1>');
 });
 
-app.use('/api/v1/product',productRoute);
+app.use('/api/v1/products',productRoute);
 
 // middleware
 app.use(notFoundMiddleware);

@@ -6,7 +6,7 @@ const uploadController = require("../controllers/uploadsController");
 Route.route("/")
   .post(productController.createProduct)
   .get(productController.getAllProduct);
-Route.route("/upload").post(uploadController.uploadProduct);
+Route.route("/uploads").post(uploadController.uploadProduct);
 
 
 module.exports=Route;
