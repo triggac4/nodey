@@ -6,3 +6,7 @@ const createProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
     res.send('get products')
 };
+
+module.exports={
+    createProduct,getAllProduct
+}

@@ -2,18 +2,25 @@ require('dotenv').config();
 require('express-async-errors');
 
 const express = require('express');
+const fileUpload=require('express-fileupload');
 const app = express();
 
 // database
 const connectDB = require('./db/connect');
 
+//routes
+const productRoute=require('./routes/productRoutes')
+
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
+app.use(express.json(),fileUpload())
 app.get('/', (req, res) => {
   res.send('<h1>File Upload Starter</h1>');
 });
+
+app.use('/api/v1/product',productRoute);
 
 // middleware
 app.use(notFoundMiddleware);
