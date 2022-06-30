@@ -1,14 +1,14 @@
 const productModel=require('../models/Product');
 const { BadRequestError}=require('../errors');
-const path=require('path');
-
+const cloudinary = require('cloudinary').v2
+const fs=require('fs');
 
 const uploadProduct = async (req, res) => {
     const {image}=req.files
     if(!image) throw new BadRequestError('image not found');
-    const imagePath=path.join(__dirname,"../public/uploads/"+image.name);
-    await image.mv(imagePath);
-    res.json({image:{src:'uploads/'+image.name}});
+    const result =await cloudinary.uploader.upload(image.tempFilePath,{folder:"nodeTrial"})
+    fs.unlinkSync(image.tempFilePath)
+    res.json({image:{src:result.secure_url}});
 };
 
 module.exports={

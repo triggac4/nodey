@@ -1,27 +1,33 @@
-require('dotenv').config();
-require('express-async-errors');
-
-const express = require('express');
-const fileUpload=require('express-fileupload');
+require("dotenv").config();
+require("express-async-errors");
+const cloudinary = require("cloudinary").v2;
+const express = require("express");
+const fileUpload = require("express-fileupload");
 const app = express();
 
 // database
-const connectDB = require('./db/connect');
+const connectDB = require("./db/connect");
 
 //routes
-const productRoute=require('./routes/productRoutes')
+const productRoute = require("./routes/productRoutes");
 
 // error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.use(express.json(),fileUpload())
-app.use(express.static("./public"))
-app.get('/', (req, res) => {
-  res.send('<h1>File Upload Starter</h1>');
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
 });
 
-app.use('/api/v1/products',productRoute);
+app.use(express.json(), fileUpload({ useTempFiles: true }));
+app.use(express.static("./public"));
+app.get("/", (req, res) => {
+  res.send("<h1>File Upload Starter</h1>");
+});
+
+app.use("/api/v1/products", productRoute);
 
 // middleware
 app.use(notFoundMiddleware);
